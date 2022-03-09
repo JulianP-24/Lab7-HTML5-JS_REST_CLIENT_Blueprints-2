@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Blueprints</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src="/webjars/jquery/jquery.min.js"></script>
+    <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="js/apimock.js"></script>
+    <script src="js/app.js"></script>
+
+</head>
+<body style="background: darkgrey">
+    <table style="width: 100%">
+    <thead></thead>
+    <tbody>
+    <tr>
+        <td>
+            <h1 style="margin-left: 100px">Blueprints</h1><br>
+            <label style="margin-left: 15px" for="Autor">Author</label><br>
+            <input style="margin-left: 15px" type="text" id="Autor">
+            <button style="margin-left: 20px" class="btn btn-primary" type="submit" id="getBlueprints" onclick="Module.planosAutor()">Get blueprints</button><br>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <br><br>
+            <span style="margin-left: 50px" id="autorLabel"></span><label> 's blueprints:' </label><br>
+            <table style="margin-left: 15px" class="table table-dark table table-bordered" id="listBlueprints" style="width: 90%">
+                <thead>
+                <tr>
+                    <th>Blueprint name</th>
+                    <th>Number of points</th>
+                    <th>Open</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table><br>
+            <label style="margin-left: 15px">Total user points: </label><span id="totalPoints"></span><br>
+        </td>
+        <td>
+            <center>
+            <label>Current blueprint: </label><span id="currentName"></span><br>
+            <canvas id="MyCanvas" width="400" height="400" style="background: aliceblue"></canvas>
+            </center>
+        </td>
+    </tr>
+    </tbody>
+    </table>
+</body>
+</html>
