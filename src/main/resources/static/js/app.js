@@ -59,21 +59,21 @@ var Module = (function () {
     var draw = function (){
         const canvas = document.getElementById("MyCanvas");
         const contexto = canvas.getContext("2d");
-        const color = black;
+        const color = "black";
         const grosor = 2;
         let xActual = 0, yActual = 0;
-        const obtenerXReal = clientX - canvas.getBoundingClientRect().left;
-        const obtenerYReal = clientY - canvas.getBoundingClientRect().top;
-        canvas.addEventListener("mousedown",evento=function (){
-                xActual = obtenerXReal;
-                yActual = obtenerYReal;
+        const obtenerXReal = (clientX) => clientX - canvas.getBoundingClientRect().left;
+        const obtenerYReal = (clientY) => clientY - canvas.getBoundingClientRect().top;
+        canvas.addEventListener("mousedown",evento = function (event){
+                xActual = obtenerXReal(event.clientX);
+                yActual = obtenerYReal(event.clientY);
                 contexto.moveTo(lastxlist, lastylist);
                 contexto.lineTo(xActual, yActual);
                 contexto.fillStyle=color;
+                contexto.fillStyle=grosor;
                 contexto.stroke();
                 lastxlist = xActual;
                 lastylist = yActual;
-
         },false);
 
         };
