@@ -3,6 +3,7 @@ var Module = (function () {
     var consulta=apimock;
     var lastxlist=null;
     var lastylist=null;
+    var listPuntos = [];
     function getName(){
         author = document.getElementById("Autor").value;
         $("#autorLabel").text(author);
@@ -74,6 +75,10 @@ var Module = (function () {
                 contexto.stroke();
                 lastxlist = xActual;
                 lastylist = yActual;
+                var parejas = [];
+                parejas.push(lastxlist,lastylist);
+                listPuntos.push(parejas);
+                console.log(listPuntos);
         },false);
 
         };
@@ -87,7 +92,14 @@ var Module = (function () {
             obra = name;
             consulta.getBlueprintsByNameAndAuthor(getName(),obra,pintaparcero);
         },
+        savePlan: function(){
+            author = getName();
+
+        },
+
         funListener: draw
+
+
     };
 })();
 

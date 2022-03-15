@@ -24,6 +24,17 @@ var apiclient = (function () {
                     alert("No existen datos del autor!")
                 }
             );
-        }
+        },
+        putBlueprints:function(autor,obra,blueprintAct,callback){
+            $.ajax({
+                url: url+"/"+autor+"/"+obra,
+                type: 'PUT',
+                data: JSON.stringify(blueprintAct),
+                contentType: "application/json"
+            }).then((responseJSON)=>apiclient.getBlueprintsByAuthor(autor,callback))
+        },
+
+
+
     }
 })();
