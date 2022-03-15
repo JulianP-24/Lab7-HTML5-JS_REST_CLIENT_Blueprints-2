@@ -34,6 +34,36 @@
 	1. Se agregue el punto al final de la secuencia de puntos del canvas actual (sólo en la memoria de la aplicación, AÚN NO EN EL API!).
 	2. Se repinte el dibujo.
 
+
+   ```js 
+       var draw = function (){
+        const canvas = document.getElementById("MyCanvas");
+        const contexto = canvas.getContext("2d");
+        const color = "black";
+        const grosor = 2;
+        let xActual = 0, yActual = 0;
+        const obtenerXReal = (clientX) => clientX - canvas.getBoundingClientRect().left;
+        const obtenerYReal = (clientY) => clientY - canvas.getBoundingClientRect().top;
+        canvas.addEventListener("mousedown",evento = function (event){
+                xActual = obtenerXReal(event.clientX);
+                yActual = obtenerYReal(event.clientY);
+                contexto.moveTo(lastxlist, lastylist);
+                contexto.lineTo(xActual, yActual);
+                contexto.fillStyle=color;
+                contexto.fillStyle=grosor;
+                contexto.stroke();
+                lastxlist = xActual;
+                lastylist = yActual;
+                var parejas = [];
+                parejas.push(lastxlist,lastylist);
+                listPuntos.push(parejas);
+                console.log(listPuntos);
+        },false);
+
+        };
+
+ 	```
+
 3. Agregue el botón Save/Update. Respetando la arquitectura de módulos actual del cliente, haga que al oprimirse el botón:
 	1. Se haga PUT al API, con el plano actualizado, en su recurso REST correspondiente.
 	2. Se haga GET al recurso /blueprints, para obtener de nuevo todos los planos realizados.
