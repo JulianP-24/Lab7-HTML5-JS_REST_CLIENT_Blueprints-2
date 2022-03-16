@@ -24,8 +24,13 @@
             <label style="margin-left: 15px" for="Autor">Author</label><br>
             <input style="margin-left: 15px" type="text" id="Autor">
             <div id="blueprint" style="display:none"><FONT COLOR="black"><h5>Blueprint name:<input type="text" id="newblueprint"></h5></FONT></div>
+
+        </td>
+        <td>
+            <center>
             <button style="margin-left: 20px" class="btn btn-primary" type="submit" id="getBlueprints" onclick="Module.planosAutor()">Get blueprints</button><br>
             <button style="margin-left: 20px" class="btn btn-primary" type="submit" id="newblueprints" onclick="Module.newblueprint()">Create new blueprint</button><br>
+            </center>
         </td>
     </tr>
     <tr>
@@ -50,9 +55,9 @@
             <center>
             <label>Current blueprint: </label><span id="currentName"></span><br>
             <canvas id="MyCanvas" width="400" height="400" style="background: aliceblue"></canvas><br>
-
+            <button style="" class="btn btn-primary" type="submit" id="Save" onclick="Module.savePlan()">Save/Update</button>
+            <button style="" class="btn btn-primary" type="submit" id="Delete" onclick="">Delete</button><br>
             </center>
-            <button style="" class="btn btn-primary" type="submit" id="Save" onclick="Module.savePlan()">Save/Update</button><br>
         </td>
     </tr>
     </tbody>

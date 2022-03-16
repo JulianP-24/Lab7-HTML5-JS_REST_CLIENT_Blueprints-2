@@ -124,7 +124,7 @@ var Module = (function () {
         },
         savePlan: function(){
             x = savePlanD();
-            if(document.getElementById("blueprint").style.display == "none"){
+            if(document.getElementById("blueprint").style.display == 'none'){
                 consulta.putBlueprints(getName(), datos.name, x, _blueprintData());
             }
             else{
@@ -142,8 +142,6 @@ var Module = (function () {
         },
 
         funListener: draw
-
-
     };
 })();
 
