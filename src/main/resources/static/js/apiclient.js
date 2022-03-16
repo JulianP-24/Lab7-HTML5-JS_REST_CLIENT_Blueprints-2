@@ -1,25 +1,19 @@
 var apiclient = (function () {
     return {
         getBlueprintsByAuthor: function (author, callback) {
-            const promise = $.get({
-                url: "http://localhost:8080/blueprints" + author,
-                contentType: "application/json",
-            });
-            promise.then(function (data) {
-                    callback(null, data);
-                }, function (error) {
-                    alert("No existen datos del autor!")
-                }
-            );
+             $.get("http://localhost:8080/blueprints/" + author).then(responseJSON =>{
+                 callback(responseJSON)
+             });
+
         },
 
-        getBlueprintsByNameAndAuthor: function (name, author, callback) {
+        getBlueprintsByNameAndAuthor: function (author, name, callback) {
             const promise = $.get({
-                url: "http://localhost:8080/blueprints" + author + "/" + name,
+                url: "http://localhost:8080/blueprints/" + author + "/" + name,
                 contentType: "application/json",
             });
-            promise.then(function (data) {
-                    callback(null, data);
+            promise.then(responseJSON => {
+                    callback(responseJSON);
                 }, function (error) {
                     alert("No existen datos del autor!")
                 }
@@ -27,14 +21,22 @@ var apiclient = (function () {
         },
         putBlueprints:function(autor,obra,blueprintAct,callback){
             $.ajax({
-                url: url+"/"+autor+"/"+obra,
+                url: "http://localhost:8080/blueprints/"+autor+"/"+obra,
                 type: 'PUT',
                 data: JSON.stringify(blueprintAct),
                 contentType: "application/json"
             }).then((responseJSON)=>apiclient.getBlueprintsByAuthor(autor,callback))
         },
+        postBlueprints:function(autor,blueprintAct,callback){
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: JSON.stringify(blueprintAct),
+                contentType: "application/json"
+            }).then((responseJSON)=>apiclient.getBlueprintsByAuthor(autor,callback))
+        }
 
 
 
-    }
+    };
 })();

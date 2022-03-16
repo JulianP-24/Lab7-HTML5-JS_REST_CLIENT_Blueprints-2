@@ -9,7 +9,9 @@
     <script src="/webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="/webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="js/apimock.js"></script>
+    <script src="js/apiclient.js"></script>
     <script src="js/app.js"></script>
+
 
 </head>
 <body  style="background: darkgrey">
@@ -21,7 +23,9 @@
             <h1 style="margin-left: 100px">Blueprints</h1><br>
             <label style="margin-left: 15px" for="Autor">Author</label><br>
             <input style="margin-left: 15px" type="text" id="Autor">
+            <div id="blueprint" style="display:none"><FONT COLOR="black"><h5>Blueprint name:<input type="text" id="newblueprint"></h5></FONT></div>
             <button style="margin-left: 20px" class="btn btn-primary" type="submit" id="getBlueprints" onclick="Module.planosAutor()">Get blueprints</button><br>
+            <button style="margin-left: 20px" class="btn btn-primary" type="submit" id="newblueprints" onclick="Module.newblueprint()">Create new blueprint</button><br>
         </td>
     </tr>
     <tr>
@@ -48,7 +52,7 @@
             <canvas id="MyCanvas" width="400" height="400" style="background: aliceblue"></canvas><br>
 
             </center>
-            <button style="" class="btn btn-primary" type="submit" id="Save" onclick="">Save/Update</button><br>
+            <button style="" class="btn btn-primary" type="submit" id="Save" onclick="Module.savePlan()">Save/Update</button><br>
         </td>
     </tr>
     </tbody>

@@ -1,9 +1,10 @@
 var Module = (function () {
     let author;
-    var consulta=apimock;
+    var consulta=apiclient;
     var lastxlist=null;
     var lastylist=null;
     var listPuntos = [];
+    var datos;
     function getName(){
         author = document.getElementById("Autor").value;
         $("#autorLabel").text(author);
@@ -24,7 +25,7 @@ var Module = (function () {
                 }
             });
             arreglo.map((elementos) => {
-                $("#listBlueprints > tbody:last").append($("<tr><td>" + elementos.name + "</td><td>" + elementos.puntos.toString() + "</td><td>" + '<button id=" + elementos.name + "onclick=Module.drawPlan(\''+elementos.name+'\')>open</button>' + "</td></tr>"));
+                $("#listBlueprints > tbody:last").append($("<tr><td>" + elementos.name + "</td><td>" + elementos.puntos.toString() + "</td><td>" + '<button id=" + elementos.name + "onclick=Module.drawPlan(\''+elementos.name+'\'),Module.funListener()>open</button>' + "</td></tr>"));
             });
             var totalPuntos = arreglo.reduce((suma, {puntos}) => suma + puntos, 0);
             $("#totalPoints").text(totalPuntos);
@@ -32,28 +33,39 @@ var Module = (function () {
 
         }
     }
-    function pintaparcero(data) {
+    var pintaparcero = function(data) {
+        console.log(data);
+        datos = data;
         const puntos = data.points;
         var planoSeleccionado = data.name;
         var c = document.getElementById("MyCanvas");
         var ctx = c.getContext("2d");
+        var lastx ;
+        var lasty ;
         ctx.clearRect(0, 0, c.width, c.height);
         ctx.restore();
         ctx.beginPath();
-        /*for (let i = 1; i < puntos.length; i++) {
-            ctx.moveTo(puntos[i - 1].x, puntos[i - 1].y);
-            ctx.lineTo(puntos[i].x, puntos[i].y);
-            if (i === puntos.length - 1) {
-                ctx.moveTo(puntos[i].x, puntos[i].y);
-                ctx.lineTo(puntos[0].x, puntos[0].y);
+        listaCoord = puntos.map((elemento)=>{
+
+            var miniArreglo = [];
+            miniArreglo.push(elemento.x, elemento.y);
+            if (!(miniArreglo in listPuntos)){
+                listPuntos.push(miniArreglo);
             }
-        }*/
-        for(let i =0; i<puntos.length-1; i++){
-            ctx.moveTo(puntos[i].x, puntos[i].y);
-            ctx.lineTo(puntos[i+1].x, puntos[i+1].y);
-            lastxlist = puntos[i+1].x;
-            lastylist = puntos[i+1].y;
-        }
+            if (lastx == undefined){
+                lastx = elemento.x;
+                lasty = elemento.y;
+            }
+            else{
+                ctx.moveTo(lastx, lasty);
+                ctx.lineTo(elemento.x, elemento.y);
+                ctx.stroke();
+                lastx = elemento.x;
+                lasty = elemento.y;
+                lastxlist = elemento.x;
+                lastylist = elemento.y;
+            }
+        })
         ctx.stroke();
         $("#currentName").text(planoSeleccionado);
     }
@@ -62,7 +74,7 @@ var Module = (function () {
         const contexto = canvas.getContext("2d");
         const color = "black";
         const grosor = 2;
-        let xActual = 0, yActual = 0;
+        let xActual = 0, yActual = 0
         const obtenerXReal = (clientX) => clientX - canvas.getBoundingClientRect().left;
         const obtenerYReal = (clientY) => clientY - canvas.getBoundingClientRect().top;
         canvas.addEventListener("mousedown",evento = function (event){
@@ -82,18 +94,50 @@ var Module = (function () {
         },false);
 
         };
-
+    var savePlanD = function () {
+        var json={datos:[listPuntos]};
+        console.log(listPuntos);
+        return json;
+    }
+    function borrar(){
+        var c = document.getElementById("MyCanvas");
+        var ctx = c.getContext("2d");
+        ctx.clearRect(0, 0, 450, 450);
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        console.log(MyCanvas.width)
+        ctx.fillRect(0, 0, MyCanvas.width , MyCanvas.height);
+        ctx.beginPath();
+        lastxlist=null;
+        lastylist=null;
+        listPuntos = [];
+    }
 
     return {
         planosAutor: function (){
             consulta.getBlueprintsByAuthor(getName(),_blueprintData);
         },
         drawPlan: function(name) {
+            listPuntos = [];
             obra = name;
             consulta.getBlueprintsByNameAndAuthor(getName(),obra,pintaparcero);
         },
         savePlan: function(){
-            author = getName();
+            x = savePlanD();
+            if(document.getElementById("blueprint").style.display == "none"){
+                consulta.putBlueprints(getName(), datos.name, x, _blueprintData());
+            }
+            else{
+                consulta.postBlueprints(getName(),datos,_blueprintData())
+            }
+
+        },
+        newblueprint: function(){
+            borrar();
+            datos={"author":"","points":[],"name":""}
+            draw();
+            document.getElementById("blueprint").style.display ='block';
+            document.getElementById("newblueprints").value = "";
 
         },
 
